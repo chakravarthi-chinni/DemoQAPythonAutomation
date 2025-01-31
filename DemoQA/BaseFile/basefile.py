@@ -27,6 +27,3 @@ class BaseFile:
 
     def fluent_wait(self,time,value,locator):
         return WebDriverWait(self.driver,time,poll_frequency=0.2).until(EC.presence_of_element_located((value,locator)))
-
-    def get_title(self):
-        self.base.driver.title
