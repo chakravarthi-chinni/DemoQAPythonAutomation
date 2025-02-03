@@ -11,7 +11,8 @@ class BaseFile:
     def __init__(self):
         # self.serv_path=Service("C:\\Users\\chakr\\Downloads\\BrowserDrivers\\chromedriver.exe")
         # self.driver=webdriver.Chrome(service=self.serv_path)
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        chrome_driver_path = ChromeDriverManager().install()
+        self.driver = webdriver.Chrome(service=Service(chrome_driver_path))
         print(f"DEBUG: self.driver type -> {type(self.driver)}") 
         self.driver.get("https://demoqa.com/")
         self.driver.maximize_window()
