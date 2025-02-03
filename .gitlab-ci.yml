@@ -1,3 +1,26 @@
+# image: python:3.9
+
+# stages:
+#   - test
+
+# before_script:
+#   - pip install --upgrade pip
+#   - pip install -r requirements.txt
+#   - apt-get update 
+#   - rm -rf ~/.cache/webdriver-manager 
+#   # Important: Update package lists FIRST
+#   - apt-get install -y chromium  # Install the 'chromium' package (usually works better)
+#   - apt-get install -y xvfb
+#   - export DISPLAY=:99
+#   - Xvfb :99 -screen 0 1024x768x24 &
+#   - sleep 2
+
+# test_app:
+#   stage: test
+#   script:
+#     - echo "Run the automation test script"
+#     - behave featurefiles/elements.feature
+
 image: python:3.9
 
 stages:
@@ -6,16 +29,23 @@ stages:
 before_script:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - apt-get update  
-  # Important: Update package lists FIRST
-  - apt-get install -y chromium  # Install the 'chromium' package (usually works better)
+  - apt-get update  # Update package lists FIRST
+  - rm -rf ~/.cache/webdriver-manager  # Clear ChromeDriver cache (most likely fix)
+  - apt-get install -y chromium  # Install the 'chromium' package
   - apt-get install -y xvfb
   - export DISPLAY=:99
   - Xvfb :99 -screen 0 1024x768x24 &
   - sleep 2
+  - chromium --version  # Print Chromium version to logs (for debugging)
+  - pip install --upgrade webdriver-manager # Update webdriver-manager
 
 test_app:
   stage: test
   script:
     - echo "Run the automation test script"
     - behave featurefiles/elements.feature
+
+
+
+
+
