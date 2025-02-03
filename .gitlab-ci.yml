@@ -1,6 +1,7 @@
 
 stages:
-    -test
+    test:
+    - "test_job"
 test-app:
     image: python:3.9
     stage: build
