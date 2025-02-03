@@ -6,7 +6,9 @@ stages:
 before_script:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - apt-get update && apt-get install -y chromium-browser xvfb
+  - apt-get update  # Important: Update package lists FIRST
+  - apt-get install -y chromium  # Install the 'chromium' package (usually works better)
+  - apt-get install -y xvfb
   - export DISPLAY=:99
   - Xvfb :99 -screen 0 1024x768x24 &
   - sleep 2
