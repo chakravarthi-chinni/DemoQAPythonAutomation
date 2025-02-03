@@ -3,12 +3,15 @@ from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 class BaseFile:
 
     def __init__(self):
-        self.serv_path=Service("C:\\Users\\chakr\\Downloads\\BrowserDrivers\\chromedriver.exe")
-        self.driver=webdriver.Chrome(service=self.serv_path)
+        # self.serv_path=Service("C:\\Users\\chakr\\Downloads\\BrowserDrivers\\chromedriver.exe")
+        # self.driver=webdriver.Chrome(service=self.serv_path)
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
         self.driver.get("https://demoqa.com/")
         self.driver.maximize_window()
         self.actions=ActionChains(self.driver)
