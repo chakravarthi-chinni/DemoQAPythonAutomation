@@ -1,51 +1,21 @@
-# image: python:3.9
-
-# stages:
-#   - test
-
-# before_script:
-#   - pip install --upgrade pip
-#   - pip install -r requirements.txt
-#   - apt-get update  # Important: Update package lists FIRST
-#   - apt-get install -y chromium  # Install the 'chromium' package (usually works better)
-#   - apt-get install -y xvfb
-#   - export DISPLAY=:99
-#   - Xvfb :99 -screen 0 1024x768x24 &
-#   - sleep 2
-
-# test_app:
-#   stage: test
-#   script:
-#     - echo "Run the automation test script"
-#     - behave featurefiles/elements.feature
-
 image: python:3.9
 
 stages:
   - test
 
-variables:
-  CHROME_DRIVER_VERSION: "latest"
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
 before_script:
-  - apt-get update
-  - apt-get install -y wget unzip
-  - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-  - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
-  - apt-get update
-  - apt-get install -y google-chrome-stable
-  - CHROME_DRIVER_VERSION=$(google-chrome --version | cut -d' ' -f3 | cut -d'.' -f1)
-  - wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
-  - unzip /tmp/chromedriver.zip -d /usr/local/bin/
-  - chmod +x /usr/local/bin/chromedriver
   - pip install --upgrade pip
   - pip install -r requirements.txt
+  - apt-get update  
+  # Important: Update package lists FIRST
+  - apt-get install -y chromium  # Install the 'chromium' package (usually works better)
+  - apt-get install -y xvfb
+  - export DISPLAY=:99
+  - Xvfb :99 -screen 0 1024x768x24 &
+  - sleep 2
 
 test_app:
   stage: test
   script:
-    - echo "Running the automation test script"
-    - behave featurefiles/elements.feature
-
+    - echo "Run the automation test script"
     - behave featurefiles/elements.feature
