@@ -11,5 +11,5 @@ test_app:
     stage: test
     script:
         - echo "run the automation test script"
-        - behave featurefiles/elements.feature  
+        - behave --no-capture featurefiles/elements.feature  
 
