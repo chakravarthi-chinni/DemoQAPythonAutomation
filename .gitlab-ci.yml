@@ -1,19 +1,18 @@
-
 image: python:3.9
 
 stages:
-    - test
+  - test
 
 before_script:
-    - apt-get update && apt-get install -y wget unzip
-    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    - apt-get install -y ./google-chrome-stable_current_amd64.deb
-    - python -m pip install --upgrade pip
-    - pip install -r requirements.txt
-    - python -m unittest discover tests
-test_app:
-    stage: test
-    script:
-        - echo "run the automation test script"
-        - behave --no-capture featurefiles/elements.feature  
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+  - apt-get update && apt-get install -y chromium-browser xvfb
+  - export DISPLAY=:99
+  - Xvfb :99 -screen 0 1024x768x24 &
+  - sleep 2
 
+test_app:
+  stage: test
+  script:
+    - echo "Run the automation test script"
+    - behave featurefiles/elements.feature
