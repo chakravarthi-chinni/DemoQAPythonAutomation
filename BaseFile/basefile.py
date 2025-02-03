@@ -11,8 +11,17 @@ class BaseFile:
     def __init__(self):
         # self.serv_path=Service("C:\\Users\\chakr\\Downloads\\BrowserDrivers\\chromedriver.exe")
         # self.driver=webdriver.Chrome(service=self.serv_path)
-        chrome_driver_path = ChromeDriverManager().install()
-        self.driver = webdriver.Chrome(service=Service(chrome_driver_path))
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")  # CRITICAL for CI
+        chrome_options.add_argument("--disable-dev-shm-usage") # Also important
+# Add any other options if needed (e.g., window size)
+        # self.driver = webdriver.Chrome(options=chrome_options)
+        # chrome_driver_path = ChromeDriverManager().install()
+        # self.driver = webdriver.Chrome(service=Service(chrome_driver_path))
+        chrome_driver_path = ChromeDriverManager().install()  # Install the driver
+        service = Service(chrome_driver_path) # Create the service object
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
         print(f"DEBUG: self.driver type -> {type(self.driver)}") 
         self.driver.get("https://demoqa.com/")
         self.driver.maximize_window()
