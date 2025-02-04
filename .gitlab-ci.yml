@@ -30,7 +30,7 @@ test_app:
   script:
     - echo "Run the automation test script"
     # - behave featurefiles/elements.feature
-    - behave --dry-run featurefiles/elements.feature
+    - behave --dry-run featurefiles/elements.feature 
 
 
 
