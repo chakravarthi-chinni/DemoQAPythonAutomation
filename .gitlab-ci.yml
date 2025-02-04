@@ -20,8 +20,8 @@ before_script:
   - pip install -r requirements.txt
   - apt-get update
   - apt-get install -y xvfb libappindicator3-1 lsb-release wget ca-certificates libx11-6 libxext6 libxrender1 libxtst6 libcups2
-  - export DISPLAY=:99
-  - Xvfb :99 -screen 0 1024x768x24 &
+  - export DISPLAY=:100
+  - Xvfb :100 -screen 0 1024x768x24 &
   - sleep 2
   - pip install --upgrade webdriver-manager
 
