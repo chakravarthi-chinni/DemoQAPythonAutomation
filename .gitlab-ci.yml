@@ -1,40 +1,42 @@
-image: python:3.9
+image: python:3.9  # Use Python Docker image
+
+variables:
+  CHROME_VERSION: "114.0.5735.90"
+  CHROMEDRIVER_VERSION: "114.0.5735.90"
+  DISPLAY: ":99"
+
+before_script:
+  - apt-get update && apt-get install -y wget unzip curl xvfb
+  - echo "Installing Google Chrome..."
+  - wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  - dpkg -i google-chrome-stable_current_amd64.deb || apt-get install -f -y
+  - google-chrome --version
+
+  - echo "Installing ChromeDriver..."
+  - wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+  - unzip chromedriver_linux64.zip
+  - mv chromedriver /usr/local/bin/
+  - chmod +x /usr/local/bin/chromedriver
+  - chromedriver --version
+
+  - echo "Setting up virtual display..."
+  - Xvfb :99 -screen 0 1920x1080x24 &
+
+  - echo "Installing dependencies..."
+  - pip install --no-cache-dir -r requirements.txt
+  - pip install behave selenium webdriver-manager
 
 stages:
   - test
 
-before_script:
-  # - pip install --upgrade pip
-  # - pip install -r requirements.txt
-  # - apt-get update
-  # - apt-get install -y xvfb  # Install xvfb *before* trying to use it
-  # - export DISPLAY=:99
-  # - Xvfb :99 -screen 0 1024x768x24 &
-  # - sleep 2
-  # - wget https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.159/linux64/chromedriver-linux64.zip 
-  # - unzip chromedriver-linux64.zip
-  # - chmod +x chromedriver-linux64/chromedriver  # Correct path to chromedriver
-  # - export PATH=$PATH:./chromedriver-linux64
-  # - pip install --upgrade webdriver-manager
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
-  - apt-get update
-  - apt-get install -y xvfb libappindicator3-1 lsb-release wget ca-certificates libx11-6 libxext6 libxrender1 libxtst6 libcups2
-  - export DISPLAY=:100
-  - Xvfb :100 -screen 0 1024x768x24 &
-  - sleep 2
-  - pip install --upgrade webdriver-manager
-
-test_app:
+run-tests:
   stage: test
   script:
-    - echo "Run the automation test script"
-    - behave featurefiles/elements.feature
-    # - behave --dry-run featurefiles/elements.feature 
-
-
-
-
-
-
-
+    - echo "Running Selenium Tests..."
+    - behave features/Newuserlogin.feature
+  artifacts:
+    when: always
+    paths:
+      - reports/
+  only:
+    - master  # Run tests only on the main branch
