@@ -39,4 +39,8 @@ run-tests:
     paths:
       - reports/
   only:
-    - master  # Run tests only on the main branch
+    - main  # Run tests only on the main branch
+
+
+
+
