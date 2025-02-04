@@ -27,19 +27,19 @@ stages:
   - test
 
 before_script:
-  - google-chrome --version  # Check Chrome version
-  - chromedriver --version
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - apt-get update  # Update package lists FIRST
-  - rm -rf ~/.cache/webdriver-manager  # Clear ChromeDriver cache (most likely fix)
-  - apt-get install -y chromium  # Install the 'chromium' package
-  - apt-get install -y xvfb
+  - apt-get update
+  - apt-get install -y xvfb  # Install xvfb *before* trying to use it
   - export DISPLAY=:99
   - Xvfb :99 -screen 0 1024x768x24 &
   - sleep 2
-  - chromium --version  # Print Chromium version to logs (for debugging)
-  - pip install --upgrade webdriver-manager # Update webdriver-manager
+  - wget https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.159/linux64/chromedriver-linux64.zip 
+  - unzip chromedriver-linux64.zip
+  - chmod +x chromedriver
+  - export PATH=$PATH:./chromedriver # Add ChromeDriver to PATH
+  - google-chrome --version # Print Chrome version to logs
+  - pip install --upgrade webdriver-manager
 
 test_app:
   stage: test
