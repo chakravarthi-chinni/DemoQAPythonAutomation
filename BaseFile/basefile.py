@@ -14,19 +14,21 @@ class BaseFile:
         # self.driver=webdriver.Chrome(service=self.serv_path)
         chrome_options = Options()
         chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")  # CRITICAL for CI
-        chrome_options.add_argument("--disable-dev-shm-usage") # Also important
-# Add any other options if needed (e.g., window size)
-        # self.driver = webdriver.Chrome(options=chrome_options)
-        # chrome_driver_path = ChromeDriverManager().install()
-        # self.driver = webdriver.Chrome(service=Service(chrome_driver_path))
-        chrome_driver_path = ChromeDriverManager().install()  # Install the driver
-        service = Service(chrome_driver_path) # Create the service object
-        self.driver = webdriver.Chrome(service=service, options=chrome_options)
-        print(f"DEBUG: self.driver type -> {type(self.driver)}") 
-        self.driver.get("https://demoqa.com/")
-        self.driver.maximize_window()
-        self.actions=ActionChains(self.driver)
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
+        try:
+            chrome_driver_path = ChromeDriverManager().install()
+            logging.info(f"ChromeDriver path: {chrome_driver_path}")  # Log the path
+            service = Service(chrome_driver_path)
+            self.driver = webdriver.Chrome(service=service, options=chrome_options)
+            logging.info("ChromeDriver started successfully.") # Indicate success
+            self.driver.get("https://demoqa.com/")
+            self.driver.maximize_window()
+            self.actions = ActionChains(self.driver)
+        except Exception as e:
+            logging.exception(f"Error during ChromeDriver setup: {e}") # Catch and log exceptions
+            raise  # Re-raise the exception so the test fails
 
     def select_locator(self,value,locator):
         return self.driver.find_element(value,locator)
