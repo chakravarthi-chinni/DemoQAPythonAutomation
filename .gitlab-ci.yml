@@ -33,7 +33,7 @@ run-tests:
   stage: test
   script:
     - echo "Running Selenium Tests..."
-    - behave features/Newuserlogin.feature
+    - behave featurefiles/elements.feature
   artifacts:
     when: always
     paths:
