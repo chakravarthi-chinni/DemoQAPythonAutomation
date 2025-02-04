@@ -36,8 +36,8 @@ before_script:
   - sleep 2
   - wget https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.159/linux64/chromedriver-linux64.zip 
   - unzip chromedriver-linux64.zip
-  - chmod +x chromedriver
-  - export PATH=$PATH:./chromedriver # Add ChromeDriver to PATH
+  - chmod +x chromedriver-linux64/chromedriver  # Correct path to chromedriver
+  - export PATH=$PATH:./chromedriver-linux64
   - google-chrome --version # Print Chrome version to logs
   - pip install --upgrade webdriver-manager
 
