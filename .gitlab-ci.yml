@@ -38,7 +38,6 @@ before_script:
   - unzip chromedriver-linux64.zip
   - chmod +x chromedriver-linux64/chromedriver  # Correct path to chromedriver
   - export PATH=$PATH:./chromedriver-linux64
-  - google-chrome --version # Print Chrome version to logs
   - pip install --upgrade webdriver-manager
 
 test_app:
