@@ -3,6 +3,7 @@ import time
 from selenium.common import TimeoutException
 
 from BaseFile.basefile import BaseFile
+from BaseFile.basefile2 import Basefileclario
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -13,7 +14,9 @@ class DemoQAStepImplementation:
     def __init__(self,context):
         self.context=context
         self.base=context.base
-        # self.base=BaseFile()
+        # self.base2=context.clario
+        # self.base=Basefileclario()
+        #  self.base=BaseFile()
 
 # element tab details
     def select_element_tab(self):
@@ -260,6 +263,26 @@ class DemoQAStepImplementation:
         else:
             assert False
 
+
+# step implemention files for clario
+
+    def open_the_clario(self):
+        self.base.explicit_wait(20,locator=By.XPATH,attribute="//li[@id='menu-item-4744']/a[text()='Support']").click()
+
+    def click_call_us(self):
+
+        self.base.window_scroll(100,400)
+        self.base.explicit_wait(10,locator=By.XPATH,attribute="//a[text()='Call us']").click()
+
+    def verify_call_us(self):
+        text=self.base.explicit_wait(20,locator=By.XPATH,attribute="//h2[text()='Call support']").text.lower()
+
+        print("verify test is : ------>",text)
+
+        if "support" in text:
+            assert True
+        else:
+            assert False
 
 
 

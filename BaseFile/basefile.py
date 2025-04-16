@@ -11,27 +11,29 @@ import logging
 class BaseFile:
 
     def __init__(self):
-        # self.serv_path=Service("C:\\Users\\chakr\\Downloads\\BrowserDrivers\\chromedriver.exe")
-        # self.driver=webdriver.Chrome(service=self.serv_path)
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--remote-debugging-port=9222")
-        chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data")
-
-        try:
-            chrome_driver_path = ChromeDriverManager().install()
-            logging.info(f"ChromeDriver path: {chrome_driver_path}")  # Log the path
-            service = Service(chrome_driver_path)
-            self.driver = webdriver.Chrome(service=service, options=chrome_options)
-            logging.info("ChromeDriver started successfully.") # Indicate success
-            self.driver.get("https://demoqa.com/")
-            self.driver.maximize_window()
-            self.actions = ActionChains(self.driver)
-        except Exception as e:
-            logging.exception(f"Error during ChromeDriver setup: {e}") # Catch and log exceptions
-            raise  # Re-raise the exception so the test fails
+        self.serv_path=Service("C:\\Users\\chakr\\Downloads\\BrowserDrivers\\chromedriver.exe")
+        self.driver=webdriver.Chrome(service=self.serv_path)
+        self.driver.get("https://demoqa.com/")
+        self.driver.maximize_window()
+        # chrome_options = Options()
+        # chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--no-sandbox")
+        # chrome_options.add_argument("--disable-dev-shm-usage")
+        # chrome_options.add_argument("--remote-debugging-port=9222")
+        # chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data")
+        #
+        # try:
+        #     chrome_driver_path = ChromeDriverManager().install()
+        #     logging.info(f"ChromeDriver path: {chrome_driver_path}")  # Log the path
+        #     service = Service(chrome_driver_path)
+        #     self.driver = webdriver.Chrome(service=service, options=chrome_options)
+        #     logging.info("ChromeDriver started successfully.") # Indicate success
+        #     self.driver.get("https://demoqa.com/")
+        #     self.driver.maximize_window()
+        #     self.actions = ActionChains(self.driver)
+        # except Exception as e:
+        #     logging.exception(f"Error during ChromeDriver setup: {e}") # Catch and log exceptions
+        #     raise  # Re-raise the exception so the test fails
 
     def select_locator(self,value,locator):
         return self.driver.find_element(value,locator)
